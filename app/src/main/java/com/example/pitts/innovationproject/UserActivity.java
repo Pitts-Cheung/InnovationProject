@@ -29,6 +29,7 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
         mGestureDetector = new GestureDetector((GestureDetector.OnGestureListener)this);
         mUserMainView = (LinearLayout) findViewById(R.id.userMainView);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabStar);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,6 +37,7 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
                         .setAction("Action", null).show();
             }
         });
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         mUserMainView.setOnTouchListener(this);
         mUserMainView.setLongClickable(true);
     }

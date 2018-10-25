@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -100,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mLastfragment = 0;
 
         mMainView.setOnTouchListener(this);
-
         mMainView.setLongClickable(true);
 
         initFragment(mLastfragment);
@@ -113,9 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mSearchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mInputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
                 mSearchView.setVisibility(View.INVISIBLE);
                 mSearchView2.setVisibility(View.VISIBLE);
                 mSearchBarClick.requestFocus();
+                mInputMethodManager.showSoftInput(mSearchBarClick,0);
             }
         });
 
@@ -135,6 +139,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,UserActivity.class));
                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
+
+        mNavigation.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // TODO Auto-generated method stub
+                mNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(mMainView.getLayoutParams());
+                lp.setMargins(0,0,0,mNavigation.getMeasuredHeight());
+                mMainView.setLayoutParams(lp);
             }
         });
     }
