@@ -52,24 +52,28 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             switch (item.getItemId()) {
                 case R.id.navigation_task:
                     if(mLastfragment != 0){
+                        mSearchView.setVisibility(View.VISIBLE);
                         switchFragment(mLastfragment,0);
                         mLastfragment = 0;
                     }
                     return true;
                 case R.id.navigation_question:
                     if(mLastfragment != 1){
+                        mSearchView.setVisibility(View.VISIBLE);
                         switchFragment(mLastfragment,1);
                         mLastfragment = 1;
                     }
                     return true;
                 case R.id.navigation_group:
                     if(mLastfragment != 2){
+                        mSearchView.setVisibility(View.VISIBLE);
                         switchFragment(mLastfragment,2);
                         mLastfragment = 2;
                     }
                     return true;
                 case R.id.navigation_chat:
                     if(mLastfragment != 3){
+                        mSearchView.setVisibility(View.GONE);
                         switchFragment(mLastfragment,3);
                         mLastfragment = 3;
                     }
@@ -133,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
             }
         });
-
-
     }
 
     @Override
@@ -163,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         else if(findViewById(R.id.search_view_2).getVisibility() == View.VISIBLE){
             findViewById(R.id.search_view_2).setVisibility(View.INVISIBLE);
             findViewById(R.id.search_view).setVisibility(View.VISIBLE);
+        }
+        else if(findViewById(R.id.search_view_2).getVisibility() == View.INVISIBLE){
+            super.onBackPressed();
         }
     }
 
