@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">InnovationProject</string>
+    <string name="title_task">任务</string>
+    <string name="title_question">问题</string>
+    <string name="title_group">组队</string>
+    <string name="title_chat">聊天</string>
+    <string name="title_activity_user">UserActivity</string>
+    <string name="search_text"> 搜索你喜爱的内容…</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_stuno">学号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录或注册</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_stuno">学号格式错误</string>
+    <string name="error_invalid_password">密码太短，最少为4位</string>
+    <string name="error_incorrect_password">密码输入错误</string>
+    <string name="error_stuno_required">请输入学号</string>
+    <string name="error_password_required">请输入密码</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>
