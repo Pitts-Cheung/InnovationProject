@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ImageView mUserHeadshot;
     private EditText mSearchBar;
     private EditText mSearchBarClick;
+    private FloatingActionButton mFabAdd;
     private Fragment[] mFragments;
     private int mLastfragment;
     private GestureDetector mGestureDetector;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 case R.id.navigation_task:
                     if(mLastfragment != 0){
                         mSearchView.setVisibility(View.VISIBLE);
+                        mFabAdd.show();
                         switchFragment(mLastfragment,0);
                         mLastfragment = 0;
                     }
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 case R.id.navigation_question:
                     if(mLastfragment != 1){
                         mSearchView.setVisibility(View.VISIBLE);
+                        mFabAdd.show();
                         switchFragment(mLastfragment,1);
                         mLastfragment = 1;
                     }
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 case R.id.navigation_group:
                     if(mLastfragment != 2){
                         mSearchView.setVisibility(View.VISIBLE);
+                        mFabAdd.show();
                         switchFragment(mLastfragment,2);
                         mLastfragment = 2;
                     }
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 case R.id.navigation_chat:
                     if(mLastfragment != 3){
                         mSearchView.setVisibility(View.GONE);
+                        mFabAdd.hide();
                         switchFragment(mLastfragment,3);
                         mLastfragment = 3;
                     }
@@ -99,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mSearchBar = (EditText)findViewById(R.id.search_bar);
         mSearchBarClick = (EditText)findViewById(R.id.search_bar_click);
         mGestureDetector = new GestureDetector((OnGestureListener)this);
+        mFabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
         mLastfragment = 0;
 
         mMainView.setOnTouchListener(this);
@@ -145,11 +152,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mNavigation.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                // TODO Auto-generated method stub
                 mNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(mMainView.getLayoutParams());
                 lp.setMargins(0,0,0,mNavigation.getMeasuredHeight());
                 mMainView.setLayoutParams(lp);
+            }
+        });
+        //todo:搜索功能
+
+        mFabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //todo:添加界面
             }
         });
     }

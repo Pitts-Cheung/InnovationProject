@@ -43,6 +43,7 @@ public class TaskFragment extends Fragment implements View.OnTouchListener,Gestu
         mTaskView.setLayoutManager(mLayoutManager);
         mTaskView.setAdapter(mWaterFallAdapter);
         RecyclerItemsOffset();
+        //todo:瀑布信息流下拉刷新，上拉加载下一页
 
         return view;
     }
@@ -115,6 +116,7 @@ public class TaskFragment extends Fragment implements View.OnTouchListener,Gestu
         "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
         "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情"};
         List<TaskCard> list = new ArrayList<>();
+        //todo:读取服务器中的数据并替换
 
         for(int i=0;i<9;i++){
             TaskCard tk = new TaskCard();

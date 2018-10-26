@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -45,9 +45,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="$USER_HOME$/下载/navigation_chat.png" />
-                                      <entry key="outputName" value="search" />
+                                      <entry key="outputName" value="add" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="000000" />
+                                      <entry key="themeColor" value="ffffff" />
                                     </map>
                                   </option>
                                 </PersistentState>

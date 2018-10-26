@@ -32,9 +32,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -53,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
+    private String[] DUMMY_CREDENTIALS = new String[]{
             "0902160324:Zpc980319", "0901160629:199836hyz"
     };
     /**
@@ -67,6 +70,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private SharedPreferences mSharedPreferences;
+    private Button mSignInButton;
+    private LinearLayout mLoginMainView;
+    private int screenHeight = 0;
+    private int keyHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +89,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             this.finish();
         }
 
-        mStunoView = (EditText) findViewById(R.id.stuno);
+        mLoginMainView = (LinearLayout)findViewById(R.id.login_main_view);
+        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+        keyHeight = screenHeight/3;
 
+        mStunoView = (EditText) findViewById(R.id.stuno);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -96,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +118,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        mLoginMainView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
+                    mLoginMainView.setBackground(getResources().getDrawable(R.mipmap.login_background_softinput));
+                }
+                else if(oldBottom != 0 && bottom != 0 &&(bottom - oldBottom > keyHeight)){
+                    mLoginMainView.setBackground(getResources().getDrawable(R.mipmap.login_background));
+                }
+            }
+        });
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -181,6 +207,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mSignInButton.setText(show ? " " : getResources().getString(R.string.action_sign_in));
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
@@ -192,6 +219,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mSignInButton.setText(show ? " " : getResources().getString(R.string.action_sign_in));
         }
     }
 
@@ -249,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // TODO: 身份验证
 
             try {
                 // Simulate network access.
@@ -266,7 +294,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
+            // TODO: 注册新账户
             return true;
         }
 
@@ -304,6 +332,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(i);
             }
         };
+
+        public void addUser(String user){
+            String[] temp = Arrays.copyOf(DUMMY_CREDENTIALS, DUMMY_CREDENTIALS.length+1);
+            temp[temp.length-1] = user;
+        }
     }
 }
 
