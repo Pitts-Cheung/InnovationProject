@@ -1,42 +1,39 @@
 package com.example.pitts.innovationproject;
 
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class UserActivity extends AppCompatActivity implements View.OnTouchListener,GestureDetector.OnGestureListener {
+import static android.support.v4.view.GravityCompat.START;
+
+public class UserFragment extends Fragment {
+
     private GestureDetector mGestureDetector;
     private LinearLayout mUserMainView;
     private LinearLayout mFollowButton;
@@ -54,29 +51,31 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
     private LinearLayout mUserFirstView;
     private CoordinatorLayout mUserView;
     private Toolbar mToolBar;
+    private ImageButton mBackButton;
+    private boolean isNotTouchingPageViewer;
     String tag = "me";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        mGestureDetector = new GestureDetector((GestureDetector.OnGestureListener)this);
-        mUserMainView = (LinearLayout) findViewById(R.id.user_main_view);
-        mTopMargin = (LinearLayout)findViewById(R.id.top_margin);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabStar);
-        mFollowButton = (LinearLayout) findViewById(R.id.follow_button);
-        mTokenTaskButton = (LinearLayout)findViewById(R.id.token_task_button);
-        mMyAnswerButton = (LinearLayout)findViewById(R.id.my_answer_button);
-        mPaymentButton = (LinearLayout)findViewById(R.id.payment_button);
-        mUserButtonView = (LinearLayout)findViewById(R.id.user_button_view);
-        mTab = (TabLayout) findViewById(R.id.tab);
-        mAppBar = (AppBarLayout)findViewById(R.id.appbar);
-        mTabContent = (ViewPager) findViewById(R.id.tabcontent);
-        mCollapsingToolBar = (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        mUserFirstView = (LinearLayout)findViewById(R.id.user_first_view);
-        mUserView = (CoordinatorLayout)findViewById(R.id.user_view);
-        mToolBar = (Toolbar)findViewById(R.id.toolbar);
+        mUserMainView = (LinearLayout) view.findViewById(R.id.user_main_view);
+        mTopMargin = (LinearLayout)view.findViewById(R.id.top_margin);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabStar);
+        mFollowButton = (LinearLayout) view.findViewById(R.id.follow_button);
+        mTokenTaskButton = (LinearLayout)view.findViewById(R.id.token_task_button);
+        mMyAnswerButton = (LinearLayout)view.findViewById(R.id.my_answer_button);
+        mPaymentButton = (LinearLayout)view.findViewById(R.id.payment_button);
+        mUserButtonView = (LinearLayout)view.findViewById(R.id.user_button_view);
+        mTab = (TabLayout) view.findViewById(R.id.tab);
+        mAppBar = (AppBarLayout)view.findViewById(R.id.appbar);
+        mTabContent = (ViewPager) view.findViewById(R.id.tabcontent);
+        mCollapsingToolBar = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar);
+        mUserFirstView = (LinearLayout)view.findViewById(R.id.user_first_view);
+        mUserView = (CoordinatorLayout)view.findViewById(R.id.user_view);
+        mToolBar = (Toolbar)view.findViewById(R.id.toolbar);
+        mBackButton = (ImageButton)view.findViewById(R.id.back_button);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,9 +83,6 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
                 //todo:收藏夹界面
             }
         });
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        mUserFirstView.setOnTouchListener(this);
-        mUserFirstView.setLongClickable(true);
 
         int marginMiddle = (int)((getWindowHeightAndWeightAndDensity()[1] - 300.0)/3.0*getWindowHeightAndWeightAndDensity()[2]);
         setViewMargin(mFollowButton,0,0,marginMiddle,0);
@@ -94,7 +90,7 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
         setViewMargin(mMyAnswerButton,0,0,marginMiddle,0);
 
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)mTopMargin.getLayoutParams();
-        lp.height = getApplicationContext().getResources().getDimensionPixelSize(getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android"));
+        lp.height = getActivity().getApplicationContext().getResources().getDimensionPixelSize(getActivity().getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android"));
         mTopMargin.setLayoutParams(lp);
 
         initTab();
@@ -105,11 +101,19 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset <= -mUserFirstView.getHeight() * 2 / 3) {
                     mCollapsingToolBar.setTitle("用户名");
-                    mTopMargin.setVisibility(View.VISIBLE);
                 } else {
                     mCollapsingToolBar.setTitle(" ");
-                    mTopMargin.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolBar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout)getActivity().findViewById(R.id.drawerLayout)).closeDrawer(GravityCompat.START);
             }
         });
 
@@ -117,58 +121,12 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
         //todo:读取用户头像、资料并替换
         //todo:编辑个人资料界面
         //todo:关注、事项、回答、支付界面
-    }
 
-    @Override
-    public void onBackPressed(){
-
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        final int fling_min_distance = 100;
-        final int fling_min_velocity = 200;
-
-        if(arg0.getX()-arg1.getX()>fling_min_distance && Math.abs(arg0.getY()-arg1.getY())<fling_min_distance && Math.abs(arg2)>fling_min_velocity){
-            this.finish();
-            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onTouch(View v,MotionEvent e){
-        return mGestureDetector.onTouchEvent(e);
+        return view;
     }
 
     public float[] getWindowHeightAndWeightAndDensity(){
-        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         float[] temp = {(int) (dm.heightPixels * 160.0 / dm.densityDpi),(int) (dm.widthPixels * 160.0 / dm.densityDpi),dm.densityDpi/(float)160.0};
@@ -191,8 +149,8 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public void initTab(){
-        mTab.setTabTextColors(ContextCompat.getColor(this, R.color.darkGrey), ContextCompat.getColor(this, R.color.colorPrimary));
-        mTab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mTab.setTabTextColors(ContextCompat.getColor(getContext(), R.color.darkGrey), ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        mTab.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         ViewCompat.setElevation(mTab, 5);
         mTab.setupWithViewPager(mTabContent);
     }
@@ -208,8 +166,27 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
         mTagcontents.add(new QuestionFragment());
         mTagcontents.add(new GroupFragment());
 
-        ContentPagerAdapter contentAdapter = new ContentPagerAdapter(getSupportFragmentManager(), mTabIndicators, mTagcontents);
+        UserFragment.ContentPagerAdapter contentAdapter = new UserFragment.ContentPagerAdapter(getActivity().getSupportFragmentManager(), mTabIndicators, mTagcontents);
         mTabContent.setAdapter(contentAdapter);
+        final OnDrawerPageChangeListener drawerPageChangeListener = (OnDrawerPageChangeListener) getActivity();
+        mTabContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if (position == mTagcontents.size() - 1) {
+                    drawerPageChangeListener.onPageSelected(true);
+                } else {
+                    drawerPageChangeListener.onPageSelected(false);
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mTab.setTabsFromPagerAdapter(contentAdapter);
     }
 
@@ -238,4 +215,9 @@ public class UserActivity extends AppCompatActivity implements View.OnTouchListe
             return titleList.get(position);
         }
     }
+
+    public interface OnDrawerPageChangeListener {
+        void onPageSelected(boolean isLast);
+    }
+
 }

@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class TaskFragment extends Fragment implements View.OnTouchListener,GestureDetector.OnGestureListener {
+public class TaskFragment extends Fragment {
     private RecyclerView mTaskView;
     private RecyclerView.LayoutManager mLayoutManager;
     private WaterFallAdapter mWaterFallAdapter;
-    private GestureDetector mGestureDetector;
 
 
     @Override
@@ -35,10 +34,6 @@ public class TaskFragment extends Fragment implements View.OnTouchListener,Gestu
         mTaskView = view.findViewById(R.id.task_view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mWaterFallAdapter = new WaterFallAdapter(getActivity(),bulidData());
-        mGestureDetector = new GestureDetector((GestureDetector.OnGestureListener)this);
-
-        mTaskView.setOnTouchListener(this);
-        mTaskView.setLongClickable(true);
 
         mTaskView.setLayoutManager(mLayoutManager);
         mTaskView.setAdapter(mWaterFallAdapter);
@@ -51,49 +46,6 @@ public class TaskFragment extends Fragment implements View.OnTouchListener,Gestu
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        final int fling_min_distance = 100;
-        final int fling_min_velocity = 200;
-
-        if(arg1.getX()-arg0.getX()>fling_min_distance && Math.abs(arg0.getY()-arg1.getY())<fling_min_distance && Math.abs(arg2)>fling_min_velocity){
-            startActivity(new Intent(getActivity(),UserActivity.class));
-            getActivity().overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onTouch(View v,MotionEvent e){
-        return mGestureDetector.onTouchEvent(e);
     }
 
     public List<TaskCard> bulidData(){

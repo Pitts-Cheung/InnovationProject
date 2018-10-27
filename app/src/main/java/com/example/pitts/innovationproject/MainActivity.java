@@ -10,29 +10,39 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener,OnGestureListener {
+import static android.support.v4.view.GravityCompat.START;
 
+public class MainActivity extends AppCompatActivity implements UserFragment.OnDrawerPageChangeListener{
+
+    private DrawerLayout mDrawerLayout;
     private LinearLayout mMainView;
     private TaskFragment mTaskFragment;
     private QuestionFragment mQuestionFragment;
     private GroupFragment mGroupFragment;
     private ChatFragment mChatFragment;
+    private UserFragment mUserFragment;
     private BottomNavigationView mNavigation;
     private LinearLayout mSearchView;
     private LinearLayout mSearchView2;
@@ -42,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private FloatingActionButton mFabAdd;
     private Fragment[] mFragments;
     private int mLastfragment;
-    private GestureDetector mGestureDetector;
     private InputMethodManager mInputMethodManager;
+    private ImageButton mSearchButton;
+    private LinearLayout mDrawer;
     private static final String PAGE_INDEX = "page_index";
     private String mUserName;
     String tag = "me";
@@ -99,19 +110,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mMainView = (LinearLayout) findViewById(R.id.mainView);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mSearchView = (LinearLayout)findViewById(R.id.search_view);
         mSearchView2 = (LinearLayout)findViewById(R.id.search_view_2);
         mUserHeadshot = (ImageView)findViewById(R.id.userHeadshot);
         mSearchBar = (EditText)findViewById(R.id.search_bar);
         mSearchBarClick = (EditText)findViewById(R.id.search_bar_click);
-        mGestureDetector = new GestureDetector((OnGestureListener)this);
         mFabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
-        mLastfragment = 0;
-
-        mMainView.setOnTouchListener(this);
-        mMainView.setLongClickable(true);
+        mSearchButton = (ImageButton)findViewById(R.id.search_button);
+        mDrawer = (LinearLayout)findViewById(R.id.drawer);
 
         initFragment(mLastfragment);
+        initDrawAble();
 
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -144,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mUserHeadshot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,UserActivity.class));
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                mDrawerLayout.openDrawer(START);
             }
         });
 
@@ -169,84 +178,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-        Log.i(tag,"start");
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.i(tag,"stop");
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Log.i(tag,"stop");
-    }
-
-    @Override
     public void onBackPressed(){
-        if(findViewById(R.id.search_view).getVisibility() == View.VISIBLE){
-            super.onBackPressed();
+        if(((DrawerLayout)findViewById(R.id.drawerLayout)).isDrawerOpen(START)){
+            ((DrawerLayout)findViewById(R.id.drawerLayout)).closeDrawer(START);
+        } else {
+            if(findViewById(R.id.search_view).getVisibility() == View.VISIBLE){
+                super.onBackPressed();
+            }
+            else if(findViewById(R.id.search_view_2).getVisibility() == View.VISIBLE){
+                findViewById(R.id.search_view_2).setVisibility(View.GONE);
+                findViewById(R.id.search_view).setVisibility(View.VISIBLE);
+            }
+            else if(findViewById(R.id.search_view_2).getVisibility() == View.GONE){
+                super.onBackPressed();
+            }
         }
-        else if(findViewById(R.id.search_view_2).getVisibility() == View.VISIBLE){
-            findViewById(R.id.search_view_2).setVisibility(View.INVISIBLE);
-            findViewById(R.id.search_view).setVisibility(View.VISIBLE);
-        }
-        else if(findViewById(R.id.search_view_2).getVisibility() == View.INVISIBLE){
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e){
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e){
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent arg0,MotionEvent arg1,float arg2,float arg3){
-        final int fling_min_distance = 100;
-        final int fling_min_velocity = 200;
-
-        if(arg1.getX()-arg0.getX()>fling_min_distance && Math.abs(arg0.getY()-arg1.getY())<fling_min_distance && Math.abs(arg2)>fling_min_velocity){
-            startActivity(new Intent(MainActivity.this,UserActivity.class));
-            overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onTouch(View v,MotionEvent e){
-        return mGestureDetector.onTouchEvent(e);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt(PAGE_INDEX, mLastfragment);
     }
 
     private void initFragment(int lastFragment){
@@ -259,6 +205,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         getSupportFragmentManager().beginTransaction().replace(R.id.mainView,mFragments[lastFragment]).show(mFragments[lastFragment]).commit();
     }
 
+    private void initDrawAble(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        mUserFragment = new UserFragment();
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams)mDrawer.getLayoutParams();
+        lp.width = metric.widthPixels;
+        mDrawer.setLayoutParams(lp);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            }
+
+            @Override public void onDrawerClosed(View drawerView) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+
+            @Override public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+        transaction.add(R.id.drawer,mUserFragment);
+        transaction.show(mUserFragment).commitAllowingStateLoss();
+    }
+
     private void switchFragment(int lastFragment,int index){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.hide(mFragments[lastFragment]);
@@ -267,6 +244,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             transaction.add(R.id.mainView,mFragments[index]);
         }
         transaction.show(mFragments[index]).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onPageSelected(boolean isLast) {
+        if (isLast) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else if (mDrawerLayout.getDrawerLockMode(START) == DrawerLayout.LOCK_MODE_UNLOCKED) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
     }
 
 }
