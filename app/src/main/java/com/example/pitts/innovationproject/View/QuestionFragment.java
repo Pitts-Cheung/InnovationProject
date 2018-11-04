@@ -1,4 +1,4 @@
-package com.example.pitts.innovationproject;
+package com.example.pitts.innovationproject.View;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.pitts.innovationproject.R;
 
 public class QuestionFragment extends Fragment {
     @Override

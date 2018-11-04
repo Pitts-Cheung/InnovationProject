@@ -1,36 +1,27 @@
-package com.example.pitts.innovationproject;
+package com.example.pitts.innovationproject.View;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
+
+import com.example.pitts.innovationproject.R;
 
 import static android.support.v4.view.GravityCompat.START;
 
@@ -57,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
     private LinearLayout mDrawer;
     private static final String PAGE_INDEX = "page_index";
     private String mUserName;
-    String tag = "me";
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -105,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(tag,"create");
         setContentView(R.layout.activity_main);
 
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -120,14 +108,11 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
         mSearchButton = (ImageButton)findViewById(R.id.search_button);
         mDrawer = (LinearLayout)findViewById(R.id.drawer);
 
+        initView();
         initFragment(mLastfragment);
-        initDrawAble();
+        initDrawer();
 
-        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        mSearchView.setVisibility(View.VISIBLE);
-        mSearchView2.setVisibility(View.INVISIBLE);
-
+        //点击搜索框后显示蒙版
         mSearchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
             }
         });
 
+        //蒙版中点击搜索框后隐藏蒙版
         mSearchView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
             }
         });
 
+        //点击头像后显示个人主页
         mUserHeadshot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,21 +145,13 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
             }
         });
 
-        mNavigation.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mNavigation.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(mMainView.getLayoutParams());
-                lp.setMargins(0,0,0,mNavigation.getMeasuredHeight());
-                mMainView.setLayoutParams(lp);
-            }
-        });
+
         //todo:搜索功能
 
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo:添加界面
+                startActivity(new Intent(MainActivity.this,NewTaskActivity.class));
             }
         });
     }
@@ -195,6 +174,15 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
         }
     }
 
+    //初始化界面
+    private void initView(){
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mSearchView.setVisibility(View.VISIBLE);
+        mSearchView2.setVisibility(View.INVISIBLE);
+    }
+
+    //初始化fragment
     private void initFragment(int lastFragment){
         mTaskFragment = new TaskFragment();
         mQuestionFragment = new QuestionFragment();
@@ -205,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
         getSupportFragmentManager().beginTransaction().replace(R.id.mainView,mFragments[lastFragment]).show(mFragments[lastFragment]).commit();
     }
 
-    private void initDrawAble(){
+    //初始化drawer
+    private void initDrawer(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         mUserFragment = new UserFragment();
         DisplayMetrics metric = new DisplayMetrics();
@@ -236,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
         transaction.show(mUserFragment).commitAllowingStateLoss();
     }
 
+    //切换fragment
     private void switchFragment(int lastFragment,int index){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.hide(mFragments[lastFragment]);

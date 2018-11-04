@@ -5,29 +5,99 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:elevation="2dp">
+
     <android.support.v7.widget.CardView
+        android:id="@+id/task_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:foreground="?attr/selectableItemBackground">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="12dp">
+
             <TextView
                 android:id="@+id/task_card_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
                 android:text="任务标题"
                 android:textSize="20dp"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>"
-            <TextView
-                android:id="@+id/task_card_context"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="任务详情" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/task_card_context"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="任务详情"
+                    android:textColor="@color/black"
+                    android:lineSpacingMultiplier="1.3"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <ImageView
+                    android:id="@+id/task_card_image"
+                    android:layout_width="100dp"
+                    android:layout_height="75dp"
+                    android:src="@mipmap/user_background"
+                    android:scaleType="centerCrop"
+                    android:layout_marginLeft="6dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="2dp"
+                    android:src="@drawable/alarm"
+                    android:tint="@color/darkGrey"/>
+
+                <TextView
+                    android:id="@+id/task_card_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24dp"
+                    android:text="0000/00/00"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="10dp"/>
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="2dp"
+                    android:src="@drawable/gift"
+                    android:tint="@color/darkGrey"/>
+
+                <TextView
+                    android:id="@+id/task_card_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0元"
+                    android:textColor="@color/darkGrey"
+                    android:textSize="10dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

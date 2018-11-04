@@ -1,7 +1,6 @@
-package com.example.pitts.innovationproject;
+package com.example.pitts.innovationproject.View;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -19,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +26,9 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
+import com.example.pitts.innovationproject.R;
 
-import static android.support.v4.view.GravityCompat.START;
+import java.util.ArrayList;
 
 public class UserFragment extends Fragment {
 
@@ -52,6 +50,8 @@ public class UserFragment extends Fragment {
     private CoordinatorLayout mUserView;
     private Toolbar mToolBar;
     private ImageButton mBackButton;
+    private ImageButton mSettingButton;
+    private LinearLayout mUserInfoEdit;
     private boolean isNotTouchingPageViewer;
     String tag = "me";
 
@@ -76,6 +76,8 @@ public class UserFragment extends Fragment {
         mUserView = (CoordinatorLayout)view.findViewById(R.id.user_view);
         mToolBar = (Toolbar)view.findViewById(R.id.toolbar);
         mBackButton = (ImageButton)view.findViewById(R.id.back_button);
+        mSettingButton = (ImageButton)view.findViewById(R.id.setting_button);
+        mUserInfoEdit = (LinearLayout) view.findViewById(R.id.user_info_edit);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +86,80 @@ public class UserFragment extends Fragment {
             }
         });
 
+        initView();
+        initTab();
+        intTabContent();
+
+        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset <= -mUserFirstView.getHeight() * 2 / 3) {
+                    mToolBar.setPadding(0,0,(int)((float)mToolBar.getTitleMarginStart()*getWindowHeightAndWeightAndDensity()[2]),0);
+                    mSettingButton.setVisibility(View.GONE);
+                    mTopMargin.setVisibility(View.VISIBLE);
+                    mCollapsingToolBar.setTitle("用户名");
+                } else {
+                    mToolBar.setPadding(0,getActivity().getApplicationContext().getResources().getDimensionPixelSize(getActivity().getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android"))+(int)((float)mToolBar.getTitleMarginTop()*getWindowHeightAndWeightAndDensity()[2]),(int)((float)mToolBar.getTitleMarginStart()*getWindowHeightAndWeightAndDensity()[2]),0);
+                    mSettingButton.setVisibility(View.VISIBLE);
+                    mTopMargin.setVisibility(View.GONE);
+                    mCollapsingToolBar.setTitle(" ");
+                }
+            }
+        });
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout)getActivity().findViewById(R.id.drawerLayout)).closeDrawer(GravityCompat.START);
+            }
+        });
+
+        mUserInfoEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo:编辑个人资料界面
+            }
+        });
+
+        //todo:更换用户背景图片
+        //todo:读取用户头像、资料并替换
+        //todo:关注、事项、回答、支付界面
+
+        return view;
+    }
+
+    class ContentPagerAdapter extends FragmentPagerAdapter {
+        private ArrayList<String> titleList;
+        private ArrayList<Fragment> fragmentList;
+
+        public ContentPagerAdapter(FragmentManager fm, ArrayList<String> titleList, ArrayList<Fragment> fragmentList) {
+            super(fm);
+            this.titleList = titleList;
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titleList.get(position);
+        }
+    }
+
+    public interface OnDrawerPageChangeListener {
+        void onPageSelected(boolean isLast);
+    }
+
+    //初始化界面
+    public void initView(){
         int marginMiddle = (int)((getWindowHeightAndWeightAndDensity()[1] - 300.0)/3.0*getWindowHeightAndWeightAndDensity()[2]);
         setViewMargin(mFollowButton,0,0,marginMiddle,0);
         setViewMargin(mTokenTaskButton,0,0,marginMiddle,0);
@@ -93,61 +169,28 @@ public class UserFragment extends Fragment {
         lp.height = getActivity().getApplicationContext().getResources().getDimensionPixelSize(getActivity().getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android"));
         mTopMargin.setLayoutParams(lp);
 
-        initTab();
-        intTabContent();
-
-        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset <= -mUserFirstView.getHeight() * 2 / 3) {
-                    mCollapsingToolBar.setTitle("用户名");
-                } else {
-                    mCollapsingToolBar.setTitle(" ");
-                }
-            }
-        });
-
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolBar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowCustomEnabled(true);
-
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DrawerLayout)getActivity().findViewById(R.id.drawerLayout)).closeDrawer(GravityCompat.START);
-            }
-        });
-
-        //todo:更换用户背景图片
-        //todo:读取用户头像、资料并替换
-        //todo:编辑个人资料界面
-        //todo:关注、事项、回答、支付界面
-
-        return view;
     }
 
+    //获取屏幕高度、宽度和density
     public float[] getWindowHeightAndWeightAndDensity(){
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         float[] temp = {(int) (dm.heightPixels * 160.0 / dm.densityDpi),(int) (dm.widthPixels * 160.0 / dm.densityDpi),dm.densityDpi/(float)160.0};
 
-        Log.i("tag",""+(dm.heightPixels * 160.0 / dm.densityDpi));
-        Log.i("tag",""+(dm.widthPixels * 160.0 / dm.densityDpi));
-        Log.i("tag",""+dm.heightPixels);
-        Log.i("tag",""+dm.widthPixels);
-        Log.i("tag",""+dm.densityDpi);
-        Log.i("tag",""+(dm.densityDpi/160.0));
-        Log.i("tag",""+dm.density);
-
         return temp;
     }
 
+    //设置控件的margin
     public void setViewMargin(View view, final int marginLeft, final int marginTop, final int marginRight, final int marginBottom){
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(view.getLayoutParams());
         lp.setMargins(marginLeft,marginTop,marginRight,marginBottom);
         view.setLayoutParams(lp);
     }
 
+    //初始化tab栏
     public void initTab(){
         mTab.setTabTextColors(ContextCompat.getColor(getContext(), R.color.darkGrey), ContextCompat.getColor(getContext(), R.color.colorPrimary));
         mTab.setSelectedTabIndicatorColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -155,6 +198,7 @@ public class UserFragment extends Fragment {
         mTab.setupWithViewPager(mTabContent);
     }
 
+    //初始化viewpager
     public void intTabContent(){
         mTabIndicators = new ArrayList<>();
         mTabIndicators.add("我的任务");
@@ -188,36 +232,6 @@ public class UserFragment extends Fragment {
             }
         });
         mTab.setTabsFromPagerAdapter(contentAdapter);
-    }
-
-    class ContentPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<String> titleList;
-        private ArrayList<Fragment> fragmentList;
-
-        public ContentPagerAdapter(FragmentManager fm, ArrayList<String> titleList, ArrayList<Fragment> fragmentList) {
-            super(fm);
-            this.titleList = titleList;
-            this.fragmentList = fragmentList;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titleList.get(position);
-        }
-    }
-
-    public interface OnDrawerPageChangeListener {
-        void onPageSelected(boolean isLast);
     }
 
 }

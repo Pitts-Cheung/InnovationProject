@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".View.NewTaskActivity"
+    tools:showIn="@layout/activity_new_task">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/task_type"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_margin="5dp"
+                android:elevation="2dp"></android.support.v7.widget.AppCompatSpinner>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:hint="任务名称"
+                android:textSize="16dp"
+                android:paddingLeft="8dp"
+                android:layout_margin="5dp"
+                android:elevation="2dp"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+        <com.sendtion.xrichtext.RichTextEditor
+            android:id="@+id/task_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            app:rt_editor_text_init_hint="任务描述"
+            android:elevation="2dp"></com.sendtion.xrichtext.RichTextEditor>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/image"
+                android:tint="@color/darkGrey"
+                android:layout_margin="5dp"/>
+
+            <ImageView
+                android:id="@+id/gift_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gift"
+                android:tint="@color/darkGrey"
+                android:layout_margin="5dp"/>
+
+            <ImageView
+                android:id="@+id/time_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/time"
+                android:tint="@color/darkGrey"
+                android:layout_margin="5dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
