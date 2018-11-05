@@ -72,7 +72,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:menu="@menu/navigation"
-                app:layout_behavior="com.example.pitts.innovationproject.BottomNavigationBehavior" />
+                app:layout_behavior="com.example.pitts.innovationproject.OverWrite.BottomNavigationBehavior" />
         </android.support.design.widget.CoordinatorLayout>
     </LinearLayout>
 

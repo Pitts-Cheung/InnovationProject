@@ -25,7 +25,7 @@ import com.example.pitts.innovationproject.R;
 
 import static android.support.v4.view.GravityCompat.START;
 
-public class MainActivity extends AppCompatActivity implements UserFragment.OnDrawerPageChangeListener{
+public class MainActivity extends AppCompatActivity implements UserFragment.DrawerLock {
 
     private DrawerLayout mDrawerLayout;
     private LinearLayout mMainView;
@@ -237,10 +237,10 @@ public class MainActivity extends AppCompatActivity implements UserFragment.OnDr
     }
 
     @Override
-    public void onPageSelected(boolean isLast) {
-        if (isLast) {
+    public void DrawerLockMode(boolean isLock){
+        if (!isLock) {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        } else if (mDrawerLayout.getDrawerLockMode(START) == DrawerLayout.LOCK_MODE_UNLOCKED) {
+        } else {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
         }
     }

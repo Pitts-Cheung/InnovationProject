@@ -8,7 +8,9 @@ import android.net.Uri;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -138,5 +140,12 @@ public class CommonUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         strDate = sdf.format(date);
         return strDate;
+    }
+
+    public static void hideSoftInput(View view){
+        InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm != null){
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
     }
 }

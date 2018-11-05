@@ -8,7 +8,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".View.UserFragment"
-    tools:showIn="@layout/activity_user">
+    tools:showIn="@layout/fragment_user">
     
     <LinearLayout
         android:id="@+id/top_margin"
@@ -144,7 +144,7 @@
                         android:id="@+id/user_button_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="16dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/white"
                         android:orientation="horizontal"
@@ -278,7 +278,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white"
-                android:layout_marginTop="8dp"
                 android:elevation="2dp"></android.support.design.widget.TabLayout>
 
         </android.support.design.widget.AppBarLayout>

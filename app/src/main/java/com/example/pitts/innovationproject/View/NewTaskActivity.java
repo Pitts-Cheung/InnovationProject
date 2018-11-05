@@ -14,19 +14,26 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.pitts.innovationproject.Bean.Task;
 import com.example.pitts.innovationproject.OverWrite.MyGlideEngine;
 import com.example.pitts.innovationproject.R;
 import com.example.pitts.innovationproject.Utils.CommonUtil;
 import com.example.pitts.innovationproject.Utils.ImageUtils;
 import com.example.pitts.innovationproject.Utils.SDCardUtil;
+import com.example.pitts.innovationproject.Utils.TimeUtils;
 import com.sendtion.xrichtext.RichTextEditor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.zhihu.matisse.Matisse;
@@ -44,6 +51,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.pitts.innovationproject.Utils.TimeUtils.getCurrentTime;
+
 public class NewTaskActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
     private FloatingActionButton fab;
@@ -52,12 +61,21 @@ public class NewTaskActivity extends AppCompatActivity {
     private RichTextEditor mTaskEdit;
     private List<String> mTaskTypes;
     private ArrayAdapter<String> mTaskTypeAdapters;
+    private EditText mTaskTitle;
     private ImageView mImageButton;
-    private Subscription subsInsert;
+    private ImageView mTimeButton;
+    private ImageView mGiftButton;
+    private LinearLayout mGiftEditView;
+    private EditText mGiftEdit;
+    private ImageButton mGiftEditCompleted;
+    private ArrayList<Integer> mDDLDate;
+    private ArrayList<Integer> mDDLTime;
     private int mScreenWidth;
     private int mScreenHeight;
+    private Task mNewTask;
     private ProgressDialog insertDialog;
     private final static int MY_PERMISSIONS_REQUEST_CALL_PHONE = 7;
+    private int mUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +87,19 @@ public class NewTaskActivity extends AppCompatActivity {
         mTaskTypeSpinner = (AppCompatSpinner)findViewById(R.id.task_type);
         mTaskEdit = (RichTextEditor)findViewById(R.id.task_edit);
         mImageButton = (ImageView)findViewById(R.id.image_button);
+        mTimeButton = (ImageView)findViewById(R.id.time_button);
+        mGiftButton = (ImageView)findViewById(R.id.gift_button);
+        mGiftEditView = (LinearLayout)findViewById(R.id.gift_edit_view);
+        mGiftEdit = (EditText)findViewById(R.id.gift_edit);
+        mGiftEditCompleted = (ImageButton)findViewById(R.id.gift_edit_completed);
         mTaskTypes = new ArrayList<String>();
         mTaskTypes.add("类型一");
         mTaskTypes.add("类型二");
         mTaskTypes.add("类型三");
         mTaskTypes.add("类型四");
+        mTaskTitle = (EditText)findViewById(R.id.task_title);
+        mDDLDate = new ArrayList<Integer>();
+        mDDLTime = new ArrayList<Integer>();
         mScreenWidth = CommonUtil.getScreenWidth(this);
         mScreenHeight = CommonUtil.getScreenHeight(this);
         insertDialog = new ProgressDialog(this);
@@ -83,15 +109,10 @@ public class NewTaskActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<RichTextEditor.EditData> editList = mTaskEdit.buildEditData();
-                StringBuffer content = new StringBuffer();
-                for (RichTextEditor.EditData itemData : editList) {
-                    if (itemData.inputStr != null) {
-                        content.append(itemData.inputStr);
-                    } else if (itemData.imagePath != null) {
-                        content.append("<img src=\"").append(itemData.imagePath).append("\"/>");
-                    }
-                }
+                mNewTask = new Task(mTaskTitle.getText().toString(),
+                        getEditData(),mUserId,getCurrentTime(),Integer.parseInt(mGiftEdit.getText().toString()),
+                        mDDLDate,mDDLTime,(String)mTaskTypeSpinner.getSelectedItem());
+                //todo:上传到数据库
                 finish();
             }
         });
@@ -104,6 +125,29 @@ public class NewTaskActivity extends AppCompatActivity {
                 } else {
                     callGallery();
                 }
+            }
+        });
+
+        mTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimeUtils.showTimePickerDialog(NewTaskActivity.this,mDDLTime,Calendar.getInstance());
+                TimeUtils.showDatePickerDialog(NewTaskActivity.this,mDDLDate,Calendar.getInstance());
+            }
+        });
+
+        mGiftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGiftEditView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mGiftEditCompleted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGiftEditView.setVisibility(View.GONE);
+                CommonUtil.hideSoftInput(mGiftEditView);
             }
         });
     }
@@ -134,7 +178,8 @@ public class NewTaskActivity extends AppCompatActivity {
 
         insertDialog.setMessage("正在插入图片...");
         insertDialog.setCanceledOnTouchOutside(false);
-        //todo:完成编辑，上传到数据库
+
+        mGiftEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
     private void callGallery(){
@@ -249,6 +294,5 @@ public class NewTaskActivity extends AppCompatActivity {
         }
         return content.toString();
     }
-
 
 }

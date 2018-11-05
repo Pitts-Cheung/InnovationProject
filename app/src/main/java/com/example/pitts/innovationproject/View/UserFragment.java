@@ -1,6 +1,7 @@
 package com.example.pitts.innovationproject.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -98,11 +99,15 @@ public class UserFragment extends Fragment {
                     mSettingButton.setVisibility(View.GONE);
                     mTopMargin.setVisibility(View.VISIBLE);
                     mCollapsingToolBar.setTitle("用户名");
+                    DrawerLock drawerLock = (DrawerLock)getActivity();
+                    drawerLock.DrawerLockMode(true);
                 } else {
                     mToolBar.setPadding(0,getActivity().getApplicationContext().getResources().getDimensionPixelSize(getActivity().getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android"))+(int)((float)mToolBar.getTitleMarginTop()*getWindowHeightAndWeightAndDensity()[2]),(int)((float)mToolBar.getTitleMarginStart()*getWindowHeightAndWeightAndDensity()[2]),0);
                     mSettingButton.setVisibility(View.VISIBLE);
                     mTopMargin.setVisibility(View.GONE);
                     mCollapsingToolBar.setTitle(" ");
+                    DrawerLock drawerLock = (DrawerLock)getActivity();
+                    drawerLock.DrawerLockMode(false);
                 }
             }
         });
@@ -111,6 +116,13 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((DrawerLayout)getActivity().findViewById(R.id.drawerLayout)).closeDrawer(GravityCompat.START);
+            }
+        });
+
+        mSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),SettingActivity.class));
             }
         });
 
@@ -154,8 +166,8 @@ public class UserFragment extends Fragment {
         }
     }
 
-    public interface OnDrawerPageChangeListener {
-        void onPageSelected(boolean isLast);
+    public interface DrawerLock {
+        void DrawerLockMode(boolean isLock);
     }
 
     //初始化界面
@@ -212,25 +224,6 @@ public class UserFragment extends Fragment {
 
         UserFragment.ContentPagerAdapter contentAdapter = new UserFragment.ContentPagerAdapter(getActivity().getSupportFragmentManager(), mTabIndicators, mTagcontents);
         mTabContent.setAdapter(contentAdapter);
-        final OnDrawerPageChangeListener drawerPageChangeListener = (OnDrawerPageChangeListener) getActivity();
-        mTabContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if (position == mTagcontents.size() - 1) {
-                    drawerPageChangeListener.onPageSelected(true);
-                } else {
-                    drawerPageChangeListener.onPageSelected(false);
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         mTab.setTabsFromPagerAdapter(contentAdapter);
     }
 
