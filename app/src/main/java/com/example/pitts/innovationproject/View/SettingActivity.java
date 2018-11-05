@@ -1,7 +1,7 @@
 package com.example.pitts.innovationproject.View;
 
-import android.content.Context;
-import android.media.AudioManager;
+import android.app.Notification;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +40,22 @@ public class SettingActivity extends AppCompatActivity {
         mVideoSwitch = (Switch)findViewById(R.id.video_switch);
 
         initView();
+
+        mVoiceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                builder.setSound(null);
+            }
+        });
+
+        mVibrationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                builder.setVibrate(null);
+            }
+        });
     }
 
     public void initView(){

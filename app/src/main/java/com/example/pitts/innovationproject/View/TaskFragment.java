@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.pitts.innovationproject.OverWrite.CardItemDecoration;
 import com.example.pitts.innovationproject.R;
 import com.example.pitts.innovationproject.Bean.TaskCard;
 
@@ -37,7 +38,7 @@ public class TaskFragment extends Fragment {
 
         mTaskView.setLayoutManager(mLayoutManager);
         mTaskView.setAdapter(mWaterFallAdapter);
-        mTaskView.addItemDecoration(new TaskItemDecoration(32));
+        mTaskView.addItemDecoration(new CardItemDecoration(32));
         //todo:瀑布信息流下拉刷新，上拉加载下一页
 
         return view;
@@ -204,21 +205,6 @@ public class TaskFragment extends Fragment {
             public void setTaskImage(ImageView taskImage) {
                 this.taskImage = taskImage;
             }
-        }
-    }
-
-    class TaskItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public TaskItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom = space;
-
-            if (parent.getChildPosition(view) == 0) outRect.top = space;
         }
     }
 }
