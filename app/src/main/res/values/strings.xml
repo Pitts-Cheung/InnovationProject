@@ -28,4 +28,7 @@
     <string name="uninterested">不感兴趣</string>
     <string name="title_activity_new_task">NewTaskActivity</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_answer_coment">AnswerComentActivity</string>
+    <string name="title_activity_answer_comment">AnswerCommentActivity</string>
+    <string name="title_activity_answer">AnswerActivity</string>
 </resources>

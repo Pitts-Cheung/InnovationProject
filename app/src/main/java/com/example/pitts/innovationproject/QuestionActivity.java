@@ -135,9 +135,9 @@ public class QuestionActivity extends AppCompatActivity {
             holder2.getAnswerCard().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent i = new Intent(getActivity(),AnswerActivity.class);
+                    Intent i = new Intent(QuestionActivity.this,AnswerActivity.class);
                     //todo:传递answer id
-                    //startActivity(i);
+                    startActivity(i);
                 }
             });
         }
