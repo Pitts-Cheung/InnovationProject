@@ -61,9 +61,10 @@ public class TaskActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("任务详情");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        loadingDialog.setMessage("数据加载中...");
+        /*loadingDialog.setMessage("数据加载中...");
         loadingDialog.setCanceledOnTouchOutside(false);
-        loadingDialog.show();
+        loadingDialog.show();*/
+        mTaskContext.measure(0,0);
         //todo:从数据库中调取数据并显示
     }
 

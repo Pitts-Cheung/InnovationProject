@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -134,9 +134,12 @@
         <com.sendtion.xrichtext.RichTextView
             android:id="@+id/task_context"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
+            app:rt_view_text_init_hint="没有内容"
+            app:rt_view_image_height="0"
+            app:rt_view_image_bottom="10"
+            app:rt_view_text_size="16"
+            app:rt_view_text_color="@color/black"
             android:background="@color/white"
             android:elevation="2dp"></com.sendtion.xrichtext.RichTextView>
 
@@ -144,4 +147,4 @@
 
 
 
-</ScrollView>
+</LinearLayout>

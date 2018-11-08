@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.pitts.innovationproject.Bean.QuestionCard;
 import com.example.pitts.innovationproject.Bean.QuestionCard;
 import com.example.pitts.innovationproject.OverWrite.CardItemDecoration;
+import com.example.pitts.innovationproject.QuestionActivity;
 import com.example.pitts.innovationproject.R;
 
 import java.util.ArrayList;
@@ -109,9 +110,9 @@ public class QuestionFragment extends Fragment {
             holder2.getQuestionCard().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Intent i = new Intent(getActivity(),QuestionActivity.class);
+                    Intent i = new Intent(getActivity(),QuestionActivity.class);
                     //todo:传递question id
-                    //startActivity(i);
+                    startActivity(i);
                 }
             });
         }

@@ -39,7 +39,11 @@
             android:name=".View.NewTaskActivity"
             android:label="@string/title_activity_new_task"
             android:theme="@style/AppTheme" />
-        <activity android:name=".View.SettingActivity"></activity>
+        <activity android:name=".View.SettingActivity" />
+        <activity
+            android:name=".QuestionActivity"
+            android:label="@string/title_activity_question"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
