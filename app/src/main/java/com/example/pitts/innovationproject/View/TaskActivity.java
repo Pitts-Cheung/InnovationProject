@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.pitts.innovationproject.BaseActivity;
 import com.example.pitts.innovationproject.R;
 import com.example.pitts.innovationproject.Utils.StringUtils;
 import com.sendtion.xrichtext.RichTextView;
@@ -26,7 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
@@ -66,6 +68,17 @@ public class TaskActivity extends AppCompatActivity {
         loadingDialog.show();*/
         mTaskContext.measure(0,0);
         //todo:从数据库中调取数据并显示
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -21,11 +21,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.pitts.innovationproject.BaseActivity;
+import com.example.pitts.innovationproject.NewQuestionActivity;
 import com.example.pitts.innovationproject.R;
 
 import static android.support.v4.view.GravityCompat.START;
 
-public class MainActivity extends AppCompatActivity implements UserFragment.DrawerLock {
+public class MainActivity extends BaseActivity implements UserFragment.DrawerLock {
 
     private DrawerLayout mDrawerLayout;
     private LinearLayout mMainView;
@@ -151,7 +153,14 @@ public class MainActivity extends AppCompatActivity implements UserFragment.Draw
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,NewTaskActivity.class));
+                switch (mLastfragment){
+                    case 0:
+                        startActivity(new Intent(MainActivity.this,NewTaskActivity.class));
+                        return;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this,NewQuestionActivity.class));
+                        return;
+                }
             }
         });
     }

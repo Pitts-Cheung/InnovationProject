@@ -31,4 +31,9 @@
     <string name="title_activity_answer_coment">AnswerComentActivity</string>
     <string name="title_activity_answer_comment">AnswerCommentActivity</string>
     <string name="title_activity_answer">AnswerActivity</string>
+    <string name="title_activity_new_answer">NewAnswerActivity</string>
+    <string name="title_activity_new_question">NewQuestionActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

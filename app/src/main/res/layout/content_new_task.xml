@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="8dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_margin="5dp"
+                android:layout_margin="8dp"
                 android:elevation="2dp"></android.support.v7.widget.AppCompatSpinner>
 
             <EditText
@@ -38,7 +38,7 @@
                 android:hint="任务名称"
                 android:textSize="16dp"
                 android:paddingLeft="8dp"
-                android:layout_margin="5dp"
+                android:layout_margin="8dp"
                 android:elevation="2dp"
                 android:maxLines="1"/>
 
@@ -48,7 +48,7 @@
             android:id="@+id/task_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
             android:background="@color/white"
             app:rt_editor_text_init_hint="任务描述"
             app:rt_editor_text_color="@color/black"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/image"
                 android:tint="@color/darkGrey"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
 
             <ImageView
                 android:id="@+id/gift_button"
@@ -73,7 +73,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/gift"
                 android:tint="@color/darkGrey"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/gift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/time_button"
@@ -81,7 +89,19 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/time"
                 android:tint="@color/darkGrey"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 
@@ -94,24 +114,24 @@
             android:gravity="center_vertical"
             android:elevation="2dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:visibility="gone">
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="invisible">
 
             <EditText
                 android:id="@+id/gift_edit"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:background="@color/white"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="元"
                 android:textColor="@color/black"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
 
             <ImageButton
                 android:id="@+id/gift_edit_completed"
@@ -120,7 +140,7 @@
                 android:src="@drawable/ok"
                 android:background="#00000000"
                 android:tint="@color/colorPrimary"
-                android:layout_margin="5dp"/>
+                android:layout_margin="8dp"/>
 
         </LinearLayout>
 

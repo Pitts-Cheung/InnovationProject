@@ -44,7 +44,7 @@ public class UserFragment extends Fragment {
     private TabLayout mTab;
     private ViewPager mTabContent;
     private ArrayList<String> mTabIndicators;
-    private ArrayList<Fragment> mTagcontents;
+    private ArrayList<Fragment> mTabcontents;
     private AppBarLayout mAppBar;
     private CollapsingToolbarLayout mCollapsingToolBar;
     private LinearLayout mUserFirstView;
@@ -217,12 +217,12 @@ public class UserFragment extends Fragment {
         mTabIndicators.add("我的问题");
         mTabIndicators.add("我的组队");
 
-        mTagcontents = new ArrayList<Fragment>();
-        mTagcontents.add(new TaskFragment());
-        mTagcontents.add(new QuestionFragment());
-        mTagcontents.add(new GroupFragment());
+        mTabcontents = new ArrayList<Fragment>();
+        mTabcontents.add(new TaskFragment());
+        mTabcontents.add(new QuestionFragment());
+        mTabcontents.add(new GroupFragment());
 
-        UserFragment.ContentPagerAdapter contentAdapter = new UserFragment.ContentPagerAdapter(getActivity().getSupportFragmentManager(), mTabIndicators, mTagcontents);
+        UserFragment.ContentPagerAdapter contentAdapter = new UserFragment.ContentPagerAdapter(getActivity().getSupportFragmentManager(), mTabIndicators, mTabcontents);
         mTabContent.setAdapter(contentAdapter);
         mTab.setTabsFromPagerAdapter(contentAdapter);
     }

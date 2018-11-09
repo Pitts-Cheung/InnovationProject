@@ -5,12 +5,14 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.example.pitts.innovationproject.BaseActivity;
 import com.example.pitts.innovationproject.R;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private Switch mVoiceSwitch;
@@ -56,6 +58,17 @@ public class SettingActivity extends AppCompatActivity {
                 builder.setVibrate(null);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void initView(){

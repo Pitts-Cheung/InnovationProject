@@ -2,7 +2,6 @@ package com.example.pitts.innovationproject.View;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,10 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pitts.innovationproject.Bean.QuestionCard;
-import com.example.pitts.innovationproject.Bean.QuestionCard;
 import com.example.pitts.innovationproject.OverWrite.CardItemDecoration;
-import com.example.pitts.innovationproject.QuestionActivity;
 import com.example.pitts.innovationproject.R;
+import com.example.pitts.innovationproject.Utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +48,15 @@ public class QuestionFragment extends Fragment {
 
     public List<QuestionCard> buildData(){
         int[] questionIds = {1,2,3,4,5,6,7,8,9};
-        String[] questionTitles = {"帮忙取快递",
-                "帮忙拿外卖",
-                "帮忙取东西",
-                "帮忙寄东西",
-                "帮忙……",
-                "帮忙……",
-                "帮忙……",
-                "帮忙……",
-                "帮忙……"};
+        String[] questionTitles = {"这段代码咋写",
+                "这道高数题怎么做",
+                "这个线怎么接",
+                "这段话怎么翻译",
+                "这个动作应该怎么做",
+                "这种构图是怎么做到的",
+                "这个东西在哪买",
+                "这个活动怎么参加",
+                "这道菜怎么做"};
         String[] questionContexts = {"详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
                 "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
                 "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
@@ -68,7 +66,7 @@ public class QuestionFragment extends Fragment {
                 "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
                 "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情",
                 "详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情"};
-        Boolean[] isImageDisplays = {true,true,false,true,false,false,false,true,true};
+        Boolean[] isImageDisplays = {false,true,true,false,true,false,false,false,true};
         List<QuestionCard> list = new ArrayList<>();
         //todo:读取服务器中的数据并替换
 
@@ -104,6 +102,7 @@ public class QuestionFragment extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
             QuestionFragment.QuestionCardWaterFallAdapter.QuestionViewHolder holder2 = (QuestionFragment.QuestionCardWaterFallAdapter.QuestionViewHolder)holder;
             QuestionCard questionCard = mData.get(position);
+            holder2.getQuestionCard().setMinimumWidth(CommonUtil.getScreenWidth(getActivity()));
             holder2.getQuestionTitle().setText(questionCard.getQuestionTitle());
             holder2.getQuestionContext().setText(questionCard.getQuestionContext());
             holder2.getQuestionImage().setVisibility(questionCard.isImageDisplay()? View.VISIBLE : View.GONE);

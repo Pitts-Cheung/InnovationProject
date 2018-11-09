@@ -7,6 +7,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.pitts.innovationproject.NewQuestionActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,14 +16,17 @@ import java.util.Date;
 
 public class TimeUtils {
 
-    public static void showDatePickerDialog(final Activity activity, final ArrayList<Integer> date, Calendar calendar) {
+    public static void showDatePickerDialog(final Activity activity, final ArrayList<Integer> date, final ArrayList<Integer> time, final Calendar calendar) {
 
         new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    date.clear();
+                    time.clear();
                     date.add(year);
                     date.add(monthOfYear);
                     date.add(dayOfMonth);
+                    showTimePickerDialog(activity,time,calendar);
                 }
             }
                 ,calendar.get(Calendar.YEAR)

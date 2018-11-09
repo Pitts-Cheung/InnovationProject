@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.example.pitts.innovationproject.OverWrite.CardItemDecoration;
 import com.example.pitts.innovationproject.R;
 import com.example.pitts.innovationproject.Bean.TaskCard;
+import com.example.pitts.innovationproject.Utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +119,7 @@ public class TaskFragment extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
             TaskViewHolder holder2 = (TaskViewHolder)holder;
             TaskCard taskCard = mData.get(position);
+            holder2.getTaskCard().setMinimumWidth(CommonUtil.getScreenWidth(getActivity()));
             holder2.getTaskTitle().setText(taskCard.getTaskTitile());
             holder2.getTaskContext().setText(taskCard.getTaskContext());
             holder2.getTaskTime().setText(taskCard.getTaskTime());

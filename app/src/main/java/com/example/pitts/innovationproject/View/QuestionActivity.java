@@ -1,32 +1,33 @@
-package com.example.pitts.innovationproject;
+package com.example.pitts.innovationproject.View;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.pitts.innovationproject.BaseActivity;
 import com.example.pitts.innovationproject.Bean.AnswerCard;
 import com.example.pitts.innovationproject.OverWrite.CardItemDecoration;
+import com.example.pitts.innovationproject.R;
+import com.example.pitts.innovationproject.Utils.CommonUtil;
 import com.sendtion.xrichtext.RichTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.sephiroth.android.library.easing.Linear;
-
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends BaseActivity {
     private Toolbar mToolbar;
     private FloatingActionButton fab;
     private RecyclerView mAnswerList;
@@ -52,8 +53,27 @@ public class QuestionActivity extends AppCompatActivity {
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { }
+            public void onClick(View view) {
+                startActivity(new Intent(QuestionActivity.this,NewAnswerActivity.class));
+            }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_scrolling,menu);
+        return true;
     }
 
     public void initView(){
@@ -129,6 +149,7 @@ public class QuestionActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
             AnswerCardWaterFallAdapter.AnswerViewHolder holder2 = (AnswerCardWaterFallAdapter.AnswerViewHolder)holder;
             AnswerCard answerCard = mData.get(position);
+            holder2.getAnswerCard().setMinimumWidth(CommonUtil.getScreenWidth(QuestionActivity.this));
             holder2.getAnswerContext().setText(answerCard.getAnswerContext());
             holder2.getAnswerTime().setText(answerCard.getAnswerTime());
             holder2.getAnswerImage().setVisibility(answerCard.isImageDisplay()? View.VISIBLE : View.GONE);
