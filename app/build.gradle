@@ -17,6 +17,21 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/activity',
+                            'src/main/res/layouts/activity_content',
+                            'src/main/res/layouts/fragment',
+                            'src/main/res/layouts/fragment_content',
+                            'src/main/res/layouts/item',
+                            //下面两个是固定兼容写法
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
 }
 
 dependencies {

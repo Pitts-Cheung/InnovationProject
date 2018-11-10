@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.example.pitts.innovationproject.NewQuestionActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
