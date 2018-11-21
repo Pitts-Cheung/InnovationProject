@@ -17,30 +17,11 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
-    sourceSets {
-        main {
-            res.srcDirs =
-                    [
-                            'src/main/res/layouts/activity',
-                            'src/main/res/layouts/activity_content',
-                            'src/main/res/layouts/fragment',
-                            'src/main/res/layouts/fragment_content',
-                            'src/main/res/layouts/item',
-                            //下面两个是固定兼容写法
-                            'src/main/res/layouts',
-                            'src/main/res'
-                    ]
+    sourceSets{
+        main(){
+            jniLibs.srcDirs = ['libs']
         }
     }
-
-    defaultConfig {
-        ndk {
-            //设置支持的SO库架构
-            abiFilters "armeabi-v7a", "x86","arm64-v8a","x86_64"
-        }
-    }
-
-
 }
 
 dependencies {
@@ -55,15 +36,15 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.zhihu.android:matisse:0.4.3'
     implementation 'com.github.sendtion:XRichText:1.5'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.3"
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation fileTree(dir: 'libs', include: '*.jar')
-    // 添加依赖。注意，版本号必须一致。
-    // 基础功能 (必需)
-    implementation 'com.netease.nimlib:basesdk:5.7.0'
-    // 全文检索服务需要
-    implementation 'com.netease.nimlib:lucene:5.7.0'
-    // 小米、华为、魅族、fcm 推送
-    implementation 'com.netease.nimlib:push:5.7.0'
-
+    implementation fileTree(include: '*.jar', dir: 'libs')
+    implementation files('libs/imsdk.jar')
+    implementation files('libs/imsdk_group_ext.jar')
+    implementation files('libs/imsdk_msg_ext.jar')
+    implementation files('libs/imsdk_sns_ext.jar')
+    implementation files('libs/mobilepb.jar')
+    implementation files('libs/qalsdk.jar')
+    implementation files('libs/tls_sdk.jar')
+    implementation files('libs/wup-1.0.0-SNAPSHOT.jar')
 }

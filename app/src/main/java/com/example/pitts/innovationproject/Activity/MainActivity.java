@@ -42,7 +42,6 @@ public class MainActivity extends BaseActivity implements UserFragment.DrawerLoc
     private BottomNavigationView mNavigation;
     private LinearLayout mSearchView;
     private LinearLayout mSearchView2;
-    private ImageView mUserHeadshot;
     private EditText mSearchBar;
     private EditText mSearchBarClick;
     private FloatingActionButton mFabAdd;
@@ -106,7 +105,6 @@ public class MainActivity extends BaseActivity implements UserFragment.DrawerLoc
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mSearchView = (LinearLayout)findViewById(R.id.search_view);
         mSearchView2 = (LinearLayout)findViewById(R.id.search_view_2);
-        mUserHeadshot = (ImageView)findViewById(R.id.userHeadshot);
         mSearchBar = (EditText)findViewById(R.id.search_bar);
         mSearchBarClick = (EditText)findViewById(R.id.search_bar_click);
         mFabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
@@ -139,14 +137,6 @@ public class MainActivity extends BaseActivity implements UserFragment.DrawerLoc
                 mSearchView2.setVisibility(View.INVISIBLE);
                 mSearchView.setVisibility(View.VISIBLE);
                 mInputMethodManager.hideSoftInputFromWindow(mMainView.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        });
-
-        //点击头像后显示个人主页
-        mUserHeadshot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.openDrawer(START);
             }
         });
 
