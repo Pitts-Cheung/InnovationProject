@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,7 +60,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     // UI references.
     private EditText mStunoView;
     private EditText mPasswordView;
-    private View mProgressView;
+    private EditText mUsernameEdit;
+    private TextInputLayout mUsernameView;
+    private View mLoginProgressView;
     private View mLoginFormView;
     private SharedPreferences mSharedPreferences;
     private Button mSignInButton;
@@ -106,7 +110,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mLoginProgressView = findViewById(R.id.login_progress);
+        mUsernameEdit = (EditText)findViewById(R.id.username);
+        mUsernameView = (TextInputLayout)findViewById(R.id.username_view);
     }
 
     @Override
@@ -197,19 +203,19 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mSignInButton.setText(show ? " " : getResources().getString(R.string.action_sign_in));
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
+            mLoginProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    mLoginProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mLoginProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mSignInButton.setText(show ? " " : getResources().getString(R.string.action_sign_in));
         }
     }
@@ -285,7 +291,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 }
             }
 
-            // TODO: 注册新账户
             return true;
         }
 

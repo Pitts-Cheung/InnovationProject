@@ -11,7 +11,9 @@
     <!-- Strings related to login -->
     <string name="prompt_stuno">学号</string>
     <string name="prompt_password">密码</string>
+    <string name="prompt_username">用户名</string>
     <string name="action_sign_in">登录或注册</string>
+    <string name="action_register">注册完成</string>
     <string name="action_sign_in_short">登录</string>
     <string name="error_invalid_stuno">学号格式错误</string>
     <string name="error_invalid_password">密码太短，最少为4位</string>
